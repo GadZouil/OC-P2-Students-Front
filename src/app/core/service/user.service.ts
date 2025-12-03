@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Register } from '../models/Register';
+import { LoginRequest } from '../models/Login';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -11,5 +12,13 @@ export class UserService {
 
   register(user: Register): Observable<Object> {
     return this.httpClient.post('/api/register', user);
+  }
+
+  login(credentials: LoginRequest): Observable<string> {
+    return this.httpClient.post(
+      '/api/login',
+      credentials,
+      { responseType: 'text' as 'json' }
+    ) as Observable<string>;
   }
 }

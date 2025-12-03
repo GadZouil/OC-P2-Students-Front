@@ -1,0 +1,35 @@
+<h2>Liste des étudiants</h2>
+
+<button (click)="goToCreate()">Ajouter un étudiant</button>
+
+<div *ngIf="loading">Chargement...</div>
+<div *ngIf="error" style="color:red">{{ error }}</div>
+
+<table *ngIf="!loading && students.length">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Prénom</th>
+      <th>Nom</th>
+      <th>Email</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let s of students">
+      <td>{{ s.id }}</td>
+      <td>{{ s.firstName }}</td>
+      <td>{{ s.lastName }}</td>
+      <td>{{ s.email }}</td>
+      <td>
+        <button (click)="goToDetail(s.id!)">Détail</button>
+        <button (click)="goToEdit(s.id!)">Modifier</button>
+        <button (click)="delete(s.id!)">Supprimer</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!loading && !students.length">
+  Aucun étudiant.
+</div>

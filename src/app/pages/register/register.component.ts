@@ -5,6 +5,7 @@ import { MaterialModule } from '../../shared/material.module';
 import { UserService } from '../../core/service/user.service';
 import { Register } from '../../core/models/Register';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -13,12 +14,17 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   standalone: true,
   styleUrl: './register.component.css'
 })
+
 export class RegisterComponent implements OnInit {
   private userService = inject(UserService);
   private formBuilder = inject(FormBuilder);
   private destroyRef = inject(DestroyRef);
   registerForm: FormGroup = new FormGroup({});
   submitted: boolean = false;
+
+  constructor(
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group(
@@ -48,12 +54,16 @@ export class RegisterComponent implements OnInit {
     };
     this.userService.register(registerUser)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(
-      () => {
-        alert('SUCCESS!! :-)');
-        // TODO : router l'utilisateur vers la page de login
-      },
-    );
+      .subscribe({
+        next: () => {
+          alert('SUCCESS!! :-)');
+          this.router.navigate(['/login']);
+        },
+        error: (err) => {
+          console.error('Erreur lors de l’inscription', err);
+          alert('Une erreur est survenue.');
+        },
+      })
   }
 
   onReset(): void {

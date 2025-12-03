@@ -1,0 +1,72 @@
+<div class="card m-3">
+  <h5 class="card-header">Login</h5>
+  <div class="card-body">
+    <form [formGroup]="LoginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Login</label>
+        <input
+          type="text"
+          formControlName="login"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && form['login'].errors }"
+        />
+        @if (submitted && form['login'].errors) {
+          <div class="invalid-feedback">
+            @if (form['login'].errors?.['required']) {
+              <div>Login is required</div>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input
+          type="password"
+          formControlName="password"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && form['password'].errors }"
+        />
+        @if (submitted && form['password'].errors) {
+          <div class="invalid-feedback">
+            @if (form['password'].errors?.['required']) {
+              <div>Password is required</div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Message d'erreur -->
+      @if (errorMessage) {
+        <div class="alert alert-danger mt-3">
+          {{ errorMessage }}
+        </div>
+      }
+
+      <div class="text-center mt-3">
+        <button class="btn btn-primary mr-1" [disabled]="loading">
+          @if (loading) {
+            <span class="spinner-border spinner-border-sm mr-2" role="status"></span>
+          }
+          Login
+        </button>
+        <button class="btn btn-secondary" type="reset" (click)="onReset()" [disabled]="loading">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+@if (token) {
+  <div class="card m-3">
+    <h5 class="card-header text-success">Connexion réussie</h5>
+    <div class="card-body">
+      <p><strong>Login :</strong> {{ loginUsed }}</p>
+      <p><strong>Token :</strong></p>
+      <pre class="bg-light p-2" style="white-space: pre-wrap; word-wrap: break-word;">
+{{ token }}
+      </pre>
+    </div>
+  </div>
+}

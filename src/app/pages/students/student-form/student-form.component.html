@@ -1,0 +1,35 @@
+<h2 *ngIf="!isEdit">Ajouter un étudiant</h2>
+<h2 *ngIf="isEdit">Modifier un étudiant</h2>
+
+<div *ngIf="error" style="color:red">{{ error }}</div>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    <label>Prénom</label>
+    <input type="text" formControlName="firstName" />
+    <div *ngIf="submitted && form.get('firstName')?.invalid" style="color:red">
+      Prénom requis
+    </div>
+  </div>
+
+  <div>
+    <label>Nom</label>
+    <input type="text" formControlName="lastName" />
+    <div *ngIf="submitted && form.get('lastName')?.invalid" style="color:red">
+      Nom requis
+    </div>
+  </div>
+
+  <div>
+    <label>Email</label>
+    <input type="email" formControlName="email" />
+    <div *ngIf="submitted && form.get('email')?.invalid" style="color:red">
+      Email invalide ou requis
+    </div>
+  </div>
+
+  <button type="submit">
+    {{ isEdit ? 'Mettre à jour' : 'Créer' }}
+  </button>
+  <button type="button" (click)="onCancel()">Annuler</button>
+</form>

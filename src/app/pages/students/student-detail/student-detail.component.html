@@ -1,0 +1,13 @@
+<h2>Détail de l’étudiant</h2>
+
+<div *ngIf="loading">Chargement...</div>
+<div *ngIf="error" style="color:red">{{ error }}</div>
+
+<div *ngIf="student && !loading">
+  <p><b>ID :</b> {{ student.id }}</p>
+  <p><b>Prénom :</b> {{ student.firstName }}</p>
+  <p><b>Nom :</b> {{ student.lastName }}</p>
+  <p><b>Email :</b> {{ student.email }}</p>
+
+  <button (click)="back()">Retour</button>
+</div>
